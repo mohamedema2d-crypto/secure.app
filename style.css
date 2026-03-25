@@ -1,35 +1,30 @@
-body {
+* {
   margin: 0;
-  font-family: Arial;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: #0f2027;
   overflow: hidden;
 }
 
-/* الخلفية */
-#particles-js {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-}
-
-/* السنتر */
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-/* الكارت */
+/* الكارد */
 .glass-card {
-  width: 320px;
+  width: 90%;
+  max-width: 350px;
   padding: 25px;
   border-radius: 20px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(15px);
   text-align: center;
   color: white;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
 
 /* العنوان */
@@ -37,77 +32,71 @@ h2 {
   margin-bottom: 15px;
 }
 
-/* الخانات */
-textarea,
-input {
+/* التكست */
+textarea {
   width: 100%;
-  padding: 12px;
-  margin: 10px 0;
+  height: 100px;
+  margin-bottom: 10px;
+  padding: 10px;
   border-radius: 10px;
   border: none;
   outline: none;
-  background: rgba(255,255,255,0.15);
-  color: white;
+  resize: none;
 }
 
-/* placeholder */
-::placeholder {
-  color: #ccc;
-}
-
-/* focus */
-textarea:focus,
-input:focus {
-  border: 1px solid #00ffcc;
-  box-shadow: 0 0 10px #00ffcc;
+/* الباسورد */
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
 }
 
 /* الأزرار */
 .buttons {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
 
 button {
-  flex: 1;
   padding: 10px;
-  border: none;
   border-radius: 10px;
-  background: linear-gradient(45deg, #00ffcc, #00c3ff);
+  border: none;
   cursor: pointer;
-  color: black;
   font-weight: bold;
 }
 
+/* ألوان */
+.encrypt { background: #00c6ff; }
+.decrypt { background: #00c6ff; }
+.copy { background: #4CAF50; }
+.clear { background: #4CAF50; }
+
 /* النتيجة */
-.result-box {
-  margin-top: 15px;
-  background: rgba(0,0,0,0.4);
-  padding: 10px;
-  border-radius: 10px;
-}
-
-/* loading */
-.loading {
-  display: none;
+#result {
   margin-top: 10px;
-  color: yellow;
-}
-
-/* toast */
-.toast {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: black;
-  color: white;
   padding: 10px;
   border-radius: 10px;
-  opacity: 0;
-  transition: 0.3s;
+  background: rgba(0,0,0,0.4);
+  word-wrap: break-word;
+  font-size: 14px;
 }
 
-.toast.show {
-  opacity: 1;
+/* موبايل */
+@media (max-width: 500px) {
+  .glass-card {
+    width: 95%;
+    padding: 20px;
+  }
+
+  textarea {
+    height: 80px;
+  }
+
+  button {
+    font-size: 12px;
+  }
 }
