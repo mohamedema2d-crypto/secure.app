@@ -1,93 +1,86 @@
-// تشغيل الخلفية المتحركة
-particlesJS("particles-js", {
-  particles: {
-    number: { value: 80 },
-    size: { value: 3 },
-    move: { speed: 2 },
-    line_linked: { enable: true }
-  }
-});
-
-// Toast Notification
-function showToast(message) {
-  let toast = document.getElementById("toast");
-  toast.innerText = message;
-  toast.classList.add("show");
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 2000);
-}
-
 // تشفير
 function encrypt() {
-  let text = document.getElementById("text").value.trim();
-  let password = document.getElementById("password").value.trim();
+  let text = document.getElementById("text").value;
+  let password = document.getElementById("password").value;
   let result = document.getElementById("result");
-  let loading = document.getElementById("loading");
 
-  if (!text || !password) {
-    showToast("⚠️ Enter text & password");
+  if (!text) {
+    result.innerText = "⚠️ Enter text first!";
     return;
   }
 
-  loading.style.display = "block";
+  let encrypted;
 
-  setTimeout(() => {
-    try {
-      let encrypted = CryptoJS.AES.encrypt(text, password).toString();
-      result.innerText = encrypted;
-      showToast("🔒 Encrypted successfully");
-    } catch (e) {
-      showToast("❌ Encryption error");
-    }
-    loading.style.display = "none";
-  }, 500);
+  if (password) {
+    encrypted = CryptoJS.AES.encrypt(text, password).toString();
+  } else {
+    encrypted = btoa(text);
+  }
+
+  result.innerText = encrypted;
 }
 
 // فك التشفير
 function decrypt() {
-  let text = document.getElementById("text").value.trim();
-  let password = document.getElementById("password").value.trim();
+  let text = document.getElementById("text").value;
+  let password = document.getElementById("password").value;
   let result = document.getElementById("result");
 
-  if (!text || !password) {
-    showToast("⚠️ Enter encrypted text & password");
+  if (!text) {
+    result.innerText = "⚠️ Enter encrypted text!";
     return;
   }
 
   try {
-    let bytes = CryptoJS.AES.decrypt(text, password);
-    let decrypted = bytes.toString(CryptoJS.enc.Utf8);
+    let decrypted;
 
-    if (!decrypted) {
-      showToast("❌ Wrong password");
+    if (password) {
+      let bytes = CryptoJS.AES.decrypt(text, password);
+      decrypted = bytes.toString(CryptoJS.enc.Utf8);
+
+      if (!decrypted) throw "error";
     } else {
-      result.innerText = decrypted;
-      showToast("🔓 Decrypted successfully");
+      decrypted = atob(text);
     }
-  } catch (e) {
-    showToast("❌ Decryption error");
+
+    result.innerText = decrypted;
+
+  } catch {
+    result.innerText = "❌ Wrong password or invalid text!";
   }
 }
 
-// نسخ النتيجة
+// copy
 function copyText() {
   let text = document.getElementById("result").innerText;
-
-  if (!text || text === "Your result will appear here...") {
-    showToast("⚠️ Nothing to copy");
-    return;
-  }
-
   navigator.clipboard.writeText(text);
-  showToast("📋 Copied!");
 }
 
-// مسح الكل
+// clear
 function clearAll() {
   document.getElementById("text").value = "";
   document.getElementById("password").value = "";
   document.getElementById("result").innerText = "Your result will appear here...";
-  showToast("🧹 Cleared!");
 }
+
+// particles background
+particlesJS("particles-js", {
+  particles: {
+    number: {
+      value: window.innerWidth < 600 ? 40 : 80
+    },
+    size: {
+      value: 3
+    },
+    color: {
+      value: "#00ffff"
+    },
+    line_linked: {
+      enable: true,
+      color: "#00ffff"
+    },
+    move: {
+      speed: 2
+    }
+  }
+});
