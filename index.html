@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Secure Encryptor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- الخلفية المتحركة -->
+<div id="particles-js"></div>
+
+<div class="container">
+  <div class="glass-card">
+
+    <h2>🔒 Secure Encryptor</h2>
+
+    <textarea id="text" placeholder="Type your secret message..."></textarea>
+
+    <input type="password" id="password" placeholder="Enter password">
+
+    <p id="strength"></p>
+
+    <div class="buttons">
+      <button onclick="encrypt()">Encrypt</button>
+      <button onclick="decrypt()">Decrypt</button>
+    </div>
+
+    <div class="buttons">
+      <button onclick="copyText()">📋 Copy</button>
+      <button onclick="clearAll()">🧹 Clear</button>
+    </div>
+
+    <div class="result-box">
+      <p id="result">Your result will appear here...</p>
+    </div>
+
+    <div id="loading" class="loading">Encrypting...</div>
+
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast"></div>
+
+<!-- مكتبة التشفير -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+<!-- الخلفية -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
