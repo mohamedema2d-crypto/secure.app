@@ -15,9 +15,9 @@ function encrypt() {
   if (password) {
     encrypted = CryptoJS.AES.encrypt(text, password).toString();
   } 
-  // لو مفيش باسورد
+  // لو مفيش باسورد (حل مشكلة العربي)
   else {
-    encrypted = btoa(text);
+    encrypted = btoa(unescape(encodeURIComponent(text)));
   }
 
   result.innerText = encrypted;
@@ -44,9 +44,9 @@ function decrypt() {
 
       if (!decrypted) throw "error";
     } 
-    // لو مفيش باسورد
+    // لو مفيش باسورد (حل العربي)
     else {
-      decrypted = atob(text);
+      decrypted = decodeURIComponent(escape(atob(text)));
     }
 
     result.innerText = decrypted;
@@ -69,24 +69,18 @@ function clearAll() {
   document.getElementById("result").innerText = "Your result will appear here...";
 }
 
-// 🌌 الخلفية المتحركة
+// 🌌 الخلفية
 particlesJS("particles-js", {
   particles: {
     number: {
       value: window.innerWidth < 600 ? 40 : 80
     },
-    size: {
-      value: 3
-    },
-    color: {
-      value: "#00ffff"
-    },
+    size: { value: 3 },
+    color: { value: "#00ffff" },
     line_linked: {
       enable: true,
       color: "#00ffff"
     },
-    move: {
-      speed: 2
-    }
+    move: { speed: 2 }
   }
 });
