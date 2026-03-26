@@ -1,4 +1,4 @@
-// تشفير
+// 🔐 Encrypt (بباسورد أو بدونه)
 function encrypt() {
   let text = document.getElementById("text").value;
   let password = document.getElementById("password").value;
@@ -11,16 +11,19 @@ function encrypt() {
 
   let encrypted;
 
+  // لو فيه باسورد
   if (password) {
     encrypted = CryptoJS.AES.encrypt(text, password).toString();
-  } else {
+  } 
+  // لو مفيش باسورد
+  else {
     encrypted = btoa(text);
   }
 
   result.innerText = encrypted;
 }
 
-// فك التشفير
+// 🔓 Decrypt (بباسورد أو بدونه)
 function decrypt() {
   let text = document.getElementById("text").value;
   let password = document.getElementById("password").value;
@@ -34,12 +37,15 @@ function decrypt() {
   try {
     let decrypted;
 
+    // لو فيه باسورد
     if (password) {
       let bytes = CryptoJS.AES.decrypt(text, password);
       decrypted = bytes.toString(CryptoJS.enc.Utf8);
 
       if (!decrypted) throw "error";
-    } else {
+    } 
+    // لو مفيش باسورد
+    else {
       decrypted = atob(text);
     }
 
@@ -50,20 +56,20 @@ function decrypt() {
   }
 }
 
-// copy
+// 📋 Copy
 function copyText() {
   let text = document.getElementById("result").innerText;
   navigator.clipboard.writeText(text);
 }
 
-// clear
+// 🧹 Clear
 function clearAll() {
   document.getElementById("text").value = "";
   document.getElementById("password").value = "";
   document.getElementById("result").innerText = "Your result will appear here...";
 }
 
-// particles background
+// 🌌 الخلفية المتحركة
 particlesJS("particles-js", {
   particles: {
     number: {
