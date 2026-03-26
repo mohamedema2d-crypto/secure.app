@@ -15,38 +15,38 @@ function encrypt() {
   if (password) {
     encrypted = CryptoJS.AES.encrypt(text, password).toString();
   } 
-  // لو مفيش باسورد (حل مشكلة العربي)
+  // بدون باسورد (UTF-8 يدعم العربي)
   else {
-    encrypted = btoa(unescape(encodeURIComponent(text)));
+    encrypted = btoa(new TextEncoder().encode(text)
+      .reduce((data, byte) => data + String.fromCharCode(byte), ""));
   }
 
   result.innerText = encrypted;
 }
 
-// 🔓 Decrypt (بباسورد أو بدونه)
+// 🔓 Decrypt
 function decrypt() {
   let text = document.getElementById("text").value;
   let password = document.getElementById("password").value;
   let result = document.getElementById("result");
 
   if (!text) {
-    result.innerText = "⚠️ Enter encrypted text!";
-    return;
+    text = result.innerText;
   }
 
   try {
     let decrypted;
 
-    // لو فيه باسورد
     if (password) {
       let bytes = CryptoJS.AES.decrypt(text, password);
       decrypted = bytes.toString(CryptoJS.enc.Utf8);
 
       if (!decrypted) throw "error";
     } 
-    // لو مفيش باسورد (حل العربي)
+    // بدون باسورد (UTF-8)
     else {
-      decrypted = decodeURIComponent(escape(atob(text)));
+      let bytes = Uint8Array.from(atob(text), c => c.charCodeAt(0));
+      decrypted = new TextDecoder().decode(bytes);
     }
 
     result.innerText = decrypted;
