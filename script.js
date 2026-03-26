@@ -1,4 +1,4 @@
-// 🔐 Encrypt (بباسورد أو بدونه)
+// 🔐 Encrypt
 function encrypt() {
   let text = document.getElementById("text").value;
   let password = document.getElementById("password").value;
@@ -11,14 +11,15 @@ function encrypt() {
 
   let encrypted;
 
-  // لو فيه باسورد
+  // لو فيه باسورد → AES
   if (password) {
     encrypted = CryptoJS.AES.encrypt(text, password).toString();
   } 
-  // بدون باسورد (UTF-8 يدعم العربي)
+  // لو مفيش باسورد → تشفير بسيط بـ CryptoJS (يدعم العربي)
   else {
-    encrypted = btoa(new TextEncoder().encode(text)
-      .reduce((data, byte) => data + String.fromCharCode(byte), ""));
+    encrypted = CryptoJS.enc.Base64.stringify(
+      CryptoJS.enc.Utf8.parse(text)
+    );
   }
 
   result.innerText = encrypted;
@@ -30,6 +31,7 @@ function decrypt() {
   let password = document.getElementById("password").value;
   let result = document.getElementById("result");
 
+  // لو المستخدم ما كتبش في التكست
   if (!text) {
     text = result.innerText;
   }
@@ -37,16 +39,18 @@ function decrypt() {
   try {
     let decrypted;
 
+    // لو فيه باسورد
     if (password) {
       let bytes = CryptoJS.AES.decrypt(text, password);
       decrypted = bytes.toString(CryptoJS.enc.Utf8);
 
       if (!decrypted) throw "error";
     } 
-    // بدون باسورد (UTF-8)
+    // بدون باسورد
     else {
-      let bytes = Uint8Array.from(atob(text), c => c.charCodeAt(0));
-      decrypted = new TextDecoder().decode(bytes);
+      decrypted = CryptoJS.enc.Utf8.stringify(
+        CryptoJS.enc.Base64.parse(text)
+      );
     }
 
     result.innerText = decrypted;
@@ -69,7 +73,7 @@ function clearAll() {
   document.getElementById("result").innerText = "Your result will appear here...";
 }
 
-// 🌌 الخلفية
+// 🌌 Background
 particlesJS("particles-js", {
   particles: {
     number: {
